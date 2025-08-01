@@ -5600,19 +5600,101 @@ playAudio3();
 		else kc.idfinish=setInterval(()=>kc.none()
 
                                      );/*/
-                   case '5': // super gun
+                   case '1': // super gun
 
                   if (ht == true){
- for(var lag = 0; lag < 0.0001; lag++){
 
-                     setTimeout(kc.shotgun(), 1);
-                    setTimeout(kc.autofire(), 100000000000000000);
-                    setTimeout(kc.cloud(), 1);
+    var lag = 0;
+ for(var lag = 0; lag < 1; lag++){
+    if(kc.idheal1){clearInterval(kc.idheal1);kc.idheal1=0;}
+  else kc.idheal1=setInterval(()=>kc.impulsegun()
+                            ,2e2);
+
+    if(kc.idheal2){clearInterval(kc.idheal2);kc.idheal2=0;}
+  else kc.idheal2=setInterval(()=>kc.slapgun()
+                            ,2e2);
+
+    if(kc.idheal3){clearInterval(kc.idheal3);kc.idheal3=0;}
+  else kc.idheal3=setInterval(()=>kc.holdfire()
+                            ,0);    }
+          //           setTimeout(kc.shotgun(), 1);
+
                   //  setTimeout(kc.cloud(), 1);
 
 
                 break;
-}}
+                  }
+
+
+
+
+                                   case '2': // super gun
+
+                  if (ht == true){
+
+    var lag = 0;
+ for(var lag = 0; lag < 1; lag++){
+    if(kc.idheal1){clearInterval(kc.idheal1);kc.idheal1=0;}
+  else kc.idheal1=setInterval(()=>kc.impulsegun()
+                            ,2e2);
+
+    if(kc.idheal2){clearInterval(kc.idheal2);kc.idheal2=0;}
+  else kc.idheal2=setInterval(()=>kc.shotgun()
+                            ,2e2);
+
+    if(kc.idheal3){clearInterval(kc.idheal3);kc.idheal3=0;}
+  else kc.idheal3=setInterval(()=>kc.holdfire()
+                            ,0);    }
+          //           setTimeout(kc.shotgun(), 1);
+
+                  //  setTimeout(kc.cloud(), 1);
+
+
+                break;
+                  }
+
+
+
+                                                   case '3': // super gun
+
+                  if (ht == true){
+
+    var lag = 0;
+ for(var lag = 0; lag < 1; lag++){
+    if(kc.idheal1){clearInterval(kc.idheal1);kc.idheal1=0;}
+  else kc.idheal1=setInterval(()=>kc.impulsegun()
+                            ,2e2);
+
+    if(kc.idheal2){clearInterval(kc.idheal2);kc.idheal2=0;}
+  else kc.idheal2=setInterval(()=>kc.bazooka()
+                            ,2e2);
+
+    if(kc.idheal3){clearInterval(kc.idheal3);kc.idheal3=0;}
+  else kc.idheal3=setInterval(()=>kc.holdfire()
+                            ,0);    }
+          //           setTimeout(kc.shotgun(), 1);
+
+                  //  setTimeout(kc.cloud(), 1);
+
+
+                break;
+                  }
+
+
+
+
+                                                                   case '4': // super gun
+
+                  if (ht == true){
+
+  setTimeout(kc.impulsegun, 1);
+          //           setTimeout(kc.shotgun(), 1);
+
+                  //  setTimeout(kc.cloud(), 1);
+
+
+                break;
+                  }
 
                                    case 'E': // super gun
 
@@ -5660,7 +5742,7 @@ playAudio3();
 //kcc.cubeMode=1
            //     kcc.cloud1
 
-kc.cloud();
+kc.a20();
 
 
 
@@ -6042,7 +6124,8 @@ document.addEventListener('mousedown', function(event) {
     if (event.button === 0) { // 0 соответствует левой кнопке мыши
 
 
-        if (ht == true){
+        if (ht2 == true){
+
 
 
 
@@ -6054,8 +6137,9 @@ document.addEventListener('mousedown', function(event) {
 
 
 
-        }
 
+        
+        }
 
 
 
@@ -6072,7 +6156,7 @@ document.addEventListener('mousedown', function(event) {
 makeCate4("Spawns Guns");
      makeCheat4('Bazooca',kc.green,()=>kc.bazooka());
   makeCheat4('Sword',kc.green,()=>kc.sword());
- makeCheat4('CubeGun',kc.green,()=>kc.cloud());
+ makeCheat4('CubeGun',kc.green,()=>kc.a20());
  makeCheat4('Centralgun',kc.green,()=>kc.centralgun());
  makeCheat4('FlameThower',kc.green,()=>kc.flamethrower());
  makeCheat4('Sixshooters2',kc.green,()=>kc.pistol2x());
@@ -6154,7 +6238,7 @@ makeRapid('Sword',kc.blue,()=>{
                             ,2e2);
 
     if(kc.idheal2){clearInterval(kc.idheal2);kc.idheal2=0;}
-  else kc.idheal2=setInterval(()=>kc.cloud()
+  else kc.idheal2=setInterval(()=>kc.a20()
                             ,2e2);
 
     if(kc.idheal3){clearInterval(kc.idheal3);kc.idheal3=0;}
@@ -6685,15 +6769,15 @@ makeCheat22('Yes Higbox',kc.green,()=>kc.off());
 kick2 = false;    showError2('Выключить анти кик');
  }
     });
-                makeCheat22('Acto gun',kc.orange,()=>{//test
+                makeCheat22('Hot Keys',kc.orange,()=>{//test
 
 
 
                          if (ht == false){
 
-                   ht = true;         showError2('Включить акто ган');}
+                   ht = true;         showError2('Включить горячие клавиши 1 2 3 4');}
  else{
-ht = false;          showError2('Выключить акто ган');
+ht = false;          showError2('Выключить горячие клавиши 1 2 3 4');
  }
 
 

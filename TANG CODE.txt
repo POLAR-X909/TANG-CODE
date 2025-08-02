@@ -261,9 +261,10 @@ async function playAudio2() {
     currentAudio.pause();
     currentAudio.currentTime = 0; // Сбрасываем время воспроизведения к началу
   }
-
+//https://polar-x909.github.io/kogamacheats/music2.mp3
+    //https://cdn.freesound.org/previews/787/787388_16856324-lq.mp3
   // Создаем новый объект Audio и запускаем воспроизведение
-  currentAudio = new Audio('https://cdn.freesound.org/previews/787/787388_16856324-lq.mp3');
+  currentAudio = new Audio('https://polar-x909.github.io/kogamacheats/music2.mp3');
   currentAudio.type = 'audio/mpeg';
 
   try {
@@ -2876,7 +2877,7 @@ setTimeout(kc.autofire(), 1);
        }
                      }
       },
-    
+
                 hpglitch(pid, health = Math.random() * 100) {
                     window.ws._msg({ data: new Uint8Array([243, 4, 29, 0, 3, 22, 105,...toByte32(pid), 70, 68, 0, 0, 0, 1, 115, 0, 6, 104, 101, 97, 108, 116, 104, 102, ...new Uint8Array(new Float32Array([health]).buffer).reverse(), 254, 105, 0, 0, 0, 0]).buffer });
                     window.ws._msg({ data: new Uint8Array([243, 4, 29, 0, 3, 22, 105,...toByte32(pid), 70, 68, 0, 0, 0, 1, 115, 0, 9, 109, 97, 120, 72, 101, 97, 108, 116, 104, 105, ...new Uint8Array(new Float32Array([health]).buffer).reverse(), 254, 105, 0, 0, 0, 0]).buffer });
@@ -4497,6 +4498,154 @@ right:90%;
 	});
 
 
+const panel = document.createElement('div');
+panel.id = 'js-panel';
+
+document.body.style.margin = '0';
+document.body.style.padding = '0';
+document.body.style.minHeight = '100vh';
+
+
+Object.assign(panel.style, {
+  position: 'absolute',
+  display: 'none',
+  zIndex: '9999',
+  backgroundImage: 'url("https://polar-x909.github.io/kogamacheats/image2.png")',
+  backgroundSize: 'contain',
+  backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
+  border: 'none',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(calc(-50% - 0.5px), -50%)',
+  width: '110px',
+  height: '120px',
+  minWidth: '110px',
+  minHeight: '120px'
+});
+
+
+document.body.appendChild(panel);
+
+
+window.togglePanel = function() {
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+};
+
+
+const musicWindow = document.createElement('div');
+musicWindow.id = 'youtube-music-window';
+
+
+const musicFrame = document.createElement('iframe');
+musicFrame.src = 'https://ford-al.github.io/Project.P/index.html';
+musicFrame.style.width = '100%';
+musicFrame.style.height = '60%';
+musicFrame.style.border = 'none';
+
+
+Object.assign(musicWindow.style, {
+  position: 'fixed',
+  bottom: '20px',
+  right: '20px',
+  width: '350px',
+  height: '400px',
+  backgroundColor: 'hsl(0deg 0% 0% / 37%);',
+  borderRadius: '12px',
+  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+  zIndex: '99999',
+  display: 'none',
+  overflow: 'hidden',
+  resize: 'both'
+});
+
+
+musicWindow.appendChild(musicFrame);
+document.body.appendChild(musicWindow);
+
+
+window.toggleYoutubeMusicPlayer = function() {
+  musicWindow.style.display = musicWindow.style.display === 'none' ? 'block' : 'none';
+};
+
+let isDragging = false;
+let offsetX, offsetY;
+
+musicWindow.addEventListener('mousedown', (e) => {
+  if (e.target === musicWindow) {
+    isDragging = true;
+    offsetX = e.clientX - musicWindow.getBoundingClientRect().left;
+    offsetY = e.clientY - musicWindow.getBoundingClientRect().top;
+    musicWindow.style.cursor = 'grabbing';
+  }
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (isDragging) {
+    musicWindow.style.left = `${e.clientX - offsetX}px`;
+    musicWindow.style.top = `${e.clientY - offsetY}px`;
+    musicWindow.style.right = 'unset';
+    musicWindow.style.bottom = 'unset';
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  musicWindow.style.cursor = 'default';
+});
+
+
+let el2 = make('div');
+top.document.body.appendChild(el2);
+el2.id = 'console2';
+el2.style = `
+    position: absolute;
+    display: none;
+    z-index: 9999;
+    background-image: url('https://polar-x909.github.io/kogamacheats/image2.png');
+    background-size: contain;
+    background-position: center center;
+    background-repeat: no-repeat;
+    text-align: center;
+    border: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(calc(-50% - 110%), -61%);
+    width: 90px;
+    height: auto;
+`;
+
+top.addEventListener('resize', function() {
+    html('console2').style.width = top.outerWidth * 0.10 + 'px';
+    html('console2').style.height = top.outerHeight * 0.17 + 'px';
+});
+top.dispatchEvent(new Event('resize'));
+
+top.document.addEventListener('mouseup', e => {
+    if(html('console2').movement) {
+        html('console2').movement = false;
+        e.preventDefault();
+        e.stopPropagation();
+    }
+});
+
+top.document.addEventListener('mousemove', e => {
+    if(html('console2').movement) {
+        html('console2').style.left = (html('console2').startPos.x + e.x - html('console2').startPos.mx) + 'px';
+        html('console2').style.top = (html('console2').startPos.y + e.y - html('console2').startPos.my) + 'px';
+        if(html('console2').offsetTop < 0) html('console2').style.top = '0px';
+        e.preventDefault();
+        e.stopPropagation();
+    }
+});
+
+	top.document.addEventListener('contextmenu', e=>{
+		if (e.target == top.document.querySelector('#pageheader .css-bho9d5')) {
+			html('console').style.display='block';
+			e.preventDefault();
+		}
+	});
+
 
 /*/el=make('div');
 	el.id='console_huy';
@@ -5592,7 +5741,7 @@ playAudio3();
 
                 break;
 
-                  
+
 
             case 'F5':
 				kc.none();
@@ -5688,6 +5837,33 @@ playAudio3();
                   if (ht == true){
 
   setTimeout(kc.impulsegun, 1);
+          //           setTimeout(kc.shotgun(), 1);
+
+                  //  setTimeout(kc.cloud(), 1);
+
+
+                break;
+                  }
+
+
+                                                                                   case '5': // super gun
+
+                  if (ht == true){
+
+  setTimeout(kc.healgun, 1);
+          //           setTimeout(kc.shotgun(), 1);
+
+                  //  setTimeout(kc.cloud(), 1);
+
+
+                break;
+                  }
+
+                                                                                                   case '6': // super gun
+
+                  if (ht == true){
+
+  setTimeout(kc.flamethrower, 1);
           //           setTimeout(kc.shotgun(), 1);
 
                   //  setTimeout(kc.cloud(), 1);
@@ -6138,7 +6314,7 @@ document.addEventListener('mousedown', function(event) {
 
 
 
-        
+
         }
 
 
@@ -6775,9 +6951,9 @@ kick2 = false;    showError2('Выключить анти кик');
 
                          if (ht == false){
 
-                   ht = true;         showError2('Включить горячие клавиши 1 2 3 4');}
+                   ht = true;         showError2('Включить горячие клавиши 1 2 3 4 5 6');}
  else{
-ht = false;          showError2('Выключить горячие клавиши 1 2 3 4');
+ht = false;          showError2('Выключить горячие клавиши 1 2 3 4 5 6');
  }
 
 
@@ -6834,11 +7010,15 @@ makeCheat22('Size',kc.orange,()=>{
 
             });/*/
 // no work :/  makeCheat22('Anti Crash 2',kc.red,()=>{Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.anti_c(kcc.names[n]));});
-makeCheat22('Delet Map',kc.green,()=>{
-
-            kc.map_d();
+makeCheat22('Crosshair',kc.green,()=>{
+        togglePanel();
+   //         kc.map_d();
 });
-makeCheat22('Spawn Water',kc.green,()=>kc.water());
+makeCheat22('Spawn Water',kc.green,()=>{
+
+   // toggleYoutubeMusicPlayer();
+
+});
   makeCheat22('Ghost kill all',kc.red,()=>{Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.ghost_kill(kcc.names[n]));});
 
 
@@ -6848,10 +7028,10 @@ makeCheat22('Spawn Water',kc.green,()=>kc.water());
  makeCheat22('None kill all',kc.red,()=>{Object.keys(kcc.names).map(chlen=>kcc.self!=kcc.names[chlen]&&kc.none_kill(kcc.names[chlen]));});
  makeCheat22('Crushed kill',kc.red,()=>{Object.keys(kcc.names).map(kl=>kcc.self!=kcc.names[kl]&&kc.crushed_kill(kcc.names[kl]));});
 
-let crashCount = 0; // Счетчик кликов
+let crashCount = 0; 
 makeCheat223('NotficationKill Crash', kc.orange, () => {
-    crashCount++; // Увеличиваем счетчик на 1 при каждом клике
-    showError2('Краш ' + crashCount); // Выводим "Краш 1", "Краш 2" и т.д.
+    crashCount++; 
+    showError2('Краш ' + crashCount); 
 
     for (let i = 0; i < 9999; i++) {
         kc.noti_kill();

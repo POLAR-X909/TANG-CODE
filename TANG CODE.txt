@@ -156,12 +156,12 @@ function startAnimation() {
       margin: 0;
       overflow: hidden;
       display: flex;
-      justify-content: flex-start; /* Выравнивание по левому краю */
+      justify-content: flex-start; 
       align-items: center;
       height: 500vh;
       width: 100vw;
       background-color: #000;
-      padding-right: 500px; /* Отступ слева */
+      padding-right: 500px; 
     }
 
     .cube {
@@ -170,14 +170,14 @@ function startAnimation() {
       height: 100px;
       transform-style: preserve-3d;
       animation: rotate 5s infinite linear;
-      margin-right: 500px; /* Дополнительный отступ слева */
+      margin-right: 500px; 
     }
 
     .face {
       position: absolute;
       width: 100px;
       height: 100px;
-      background-color: rgba(255, 255, 255, 0); /* Прозрачные грани */
+      background-color: rgba(255, 255, 255, 0); 
       border: 1px solid #9400D3;
       box-shadow: 0 0 300px #9400D3;
     }
@@ -196,11 +196,11 @@ function startAnimation() {
   `;
   document.head.appendChild(style);
 
-  // Создание контейнера куба
+
   cube = document.createElement('div');
   cube.className = 'cube';
 
-  // Создание граней куба
+
   const faces = ['front', 'back', 'right', 'left', 'top', 'bottom'];
   faces.forEach(face => {
     const div = document.createElement('div');
@@ -208,11 +208,11 @@ function startAnimation() {
     cube.appendChild(div);
   });
 
-  // Добавление куба на страницу
+
   document.body.appendChild(cube);
 }
 
-// Функция для остановки анимации
+
 function stopAnimation() {
   if (cube) {
     cube.remove();
@@ -276,13 +276,12 @@ async function playAudio2() {
 }
 
 async function playAudio3() {
-  // Если уже есть воспроизводимое аудио, остановим его
+
   if (currentAudio) {
     currentAudio.pause();
-    currentAudio.currentTime = 0; // Сбрасываем время воспроизведения к началу
+    currentAudio.currentTime = 0; 
   }
 
-  // Создаем новый объект Audio и запускаем воспроизведение
   currentAudio = new Audio('https://cdn.freesound.org/previews/785/785265_13973196-lq.mp3');
   currentAudio.type = 'audio/mpeg';
 
@@ -294,6 +293,42 @@ async function playAudio3() {
   }
 }
 
+
+async function playAudio4() {
+
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+
+  currentAudio = new Audio('https://polar-x909.github.io/kogamacheats/sound2.mp3');
+  currentAudio.type = 'audio/mpeg';
+
+  try {
+    await currentAudio.play();
+    console.log('Playing...');
+  } catch (err) {
+    console.log('Failed to play...' + err);  //https://cdn.freesound.org/previews/787/787388_16856324-lq.mp3
+  }
+}
+
+async function playAudio5() {
+
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+  }
+
+  currentAudio = new Audio('https://polar-x909.github.io/kogamacheats/sound3.mp3');
+  currentAudio.type = 'audio/mpeg';
+
+  try {
+    await currentAudio.play();
+    console.log('Playing...');
+  } catch (err) {
+    console.log('Failed to play...' + err);  //https://cdn.freesound.org/previews/787/787388_16856324-lq.mp3
+  }
+}
 function stopAudio() {
   // Если есть воспроизводимое аудио, останавливаем его
   if (currentAudio) {
@@ -3666,7 +3701,7 @@ width: 200px;
 		let el=make('input');
 		el.id=name;
 		el.value=name;
-		el.className='cheat_Cate';
+		el.className='cheat_element';
 		el.type='button';
 		el.style=`display:block;
         height:8.8%;
@@ -4342,6 +4377,7 @@ let al= document.createElement('input');//----------------------------------Play
 			color:#7E00FF !important;
                border: 3px solid #7E00FF !important;
 		}
+
 		.bar_element_off{
 
 			opacity:1;
@@ -4518,9 +4554,9 @@ Object.assign(panel.style, {
   top: '50%',
   left: '50%',
   transform: 'translate(calc(-50% - 0.5px), -50%)',
-  width: '110px',
+  width: '120px',
   height: '120px',
-  minWidth: '110px',
+  minWidth: '120px',
   minHeight: '120px'
 });
 
@@ -4533,12 +4569,748 @@ window.togglePanel = function() {
 };
 
 
+const panel2 = document.createElement('div');
+panel2.id = 'js-panel';
+
+document.body.style.margin = '0';
+document.body.style.padding = '0';
+document.body.style.minHeight = '100vh';
+
+
+const dragHandle = document.createElement('div');
+dragHandle.textContent = 'Moving';
+dragHandle.style.textAlign = 'center';
+dragHandle.style.cursor = 'move';
+
+
+Object.assign(dragHandle.style, {
+  position: 'absolute',
+  top: '0',
+  left: '0',
+  width: '100%',
+  color: '#FFF',
+  height: '20px',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  cursor: 'move',
+  userSelect: 'none',
+  margin: '0',
+  padding: '0',
+  border: 'none',
+  outline: 'none',
+  boxSizing: 'border-box'
+});
+
+
+Object.assign(panel2.style, {
+  position: 'absolute',
+  display: 'none',
+  zIndex: '9999',
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  width: '120px',
+  height: 'auto', 
+  minWidth: '120px',
+  padding: '30px 10px 10px',
+  boxSizing: 'border-box',
+  borderRadius: '5px',
+  border: '3px solid #000000CC',
+      top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  boxShadow: '0 0 15px rgba(138, 43, 226, 0.8)'
+});
+
+
+function addButtonToPanel(text, onClickFunction, buttonStyle = {}) {
+  const button = document.createElement('button');
+  button.textContent = text;
+
+
+  Object.assign(button.style, {
+    display: 'block',
+    width: '90px',
+    color: '#FFF',
+    boxShadow: '0 0 15px rgba(138, 43, 226, 0.8)',
+    border: '3px solid #000000CC',
+    backgroundColor: 'hsl(0deg 0% 0% / 57%)',
+    textAlign: 'center',
+    fontFamily: 'Helvetica, Sans-serif',
+    borderRadius: '7px',
+    fontWeight: '400',
+    cursor: 'pointer',
+    margin: '5px auto',
+    ...buttonStyle 
+  });
+
+  button.addEventListener('click', onClickFunction);
+  panel2.appendChild(button);
+  return button;
+}
+
+
+panel2.appendChild(dragHandle);
+document.body.appendChild(panel2);
+/*/
+
+addButtonToPanel('Toggle', () => {
+  panel2.style.display = panel2.style.display === 'none' ? 'block' : 'none';
+});/*/
+addButtonToPanel('Swim', () => {
+
+                            	if(kc.idfinish1a4a){clearInterval(kc.idfinish1a4a);kc.idfinish1a4a=0;}
+		else kc.idfinish1a4a=setInterval(()=>Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.A1(kcc.self[n])),2e2);
+
+
+});
+
+addButtonToPanel('Walk', () => {
+  //  kc.A2();
+
+
+    if(kc.idfinif1f4a){clearInterval(kc.idfinif1f4a);kc.idfinif1f4a=0;}
+    else kc.idfinif1f4a=setInterval(()=>Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.A2(kcc.self[n])),2e2);
+});
+addButtonToPanel('Idle', () => {
+//    kc.A3();
+if(kc.idfin2g5b){clearInterval(kc.idfin2g5b);kc.idfin2g5b=0;}else kc.idfin2g5b=setInterval(()=>Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.A3(kcc.self[n])),2e2);
+
+});
+
+addButtonToPanel('Jump', () => {
+ //   kc.A4();
+if(kc.idfin3h6c){clearInterval(kc.idfin3h6c);kc.idfin3h6c=0;}else kc.idfin3h6c=setInterval(()=>Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.A4(kcc.self[n])),2e2);
+});
+
+    addButtonToPanel('Dead', () => {
+  //  kc.A6();
+if(kc.idfin4i7d){clearInterval(kc.idfin4i7d);kc.idfin4i7d=0;}else kc.idfin4i7d=setInterval(()=>Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.A6(kcc.self[n])),2e2);
+});
+
+
+    addButtonToPanel('T-pose', () => {
+ //   kc.A7();
+if(kc.idfin5j8e){clearInterval(kc.idfin5j8e);kc.idfin5j8e=0;}else kc.idfin5j8e=setInterval(()=>Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.A7(kcc.self[n])),2e2);
+});
+
+// Функция переключения видимости панели
+window.toggleYoutubeMusicPlayer = function() {
+  panel2.style.display = panel2.style.display === 'none' ? 'block' : 'none';
+};
+
+// Логика перетаскивания
+let isDragging = false;
+let offsetX, offsetY;
+
+dragHandle.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  offsetX = e.clientX - panel2.getBoundingClientRect().left;
+  offsetY = e.clientY - panel2.getBoundingClientRect().top;
+  panel2.style.cursor = 'grabbing';
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+
+  panel2.style.left = `${e.clientX - offsetX}px`;
+  panel2.style.top = `${e.clientY - offsetY}px`;
+  panel2.style.transform = 'none';
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging = false;
+  panel2.style.cursor = '';
+});
+
+const panel3 = document.createElement('div');
+panel3.id = 'js-panel-3';
+
+document.body.style.margin = '0';
+document.body.style.padding = '0';
+document.body.style.minHeight = '100vh';
+
+const dragHandle3 = document.createElement('div');
+dragHandle3.textContent = 'Moving';
+dragHandle3.style.textAlign = 'center';
+dragHandle3.style.cursor = 'move';
+
+Object.assign(dragHandle3.style, {
+  position: 'absolute',
+  top: '0',
+  left: '0',
+  width: '100%',
+  color: '#FFF',
+  height: '20px',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  cursor: 'move',
+  userSelect: 'none',
+  margin: '0',
+  padding: '0',
+  border: 'none',
+  outline: 'none',
+  boxSizing: 'border-box'
+});
+
+// Create a container for scrollable content
+const contentContainer = document.createElement('div');
+Object.assign(contentContainer.style, {
+  maxHeight: '300px',
+  overflowY: 'auto',
+  padding: '5px',
+  // Стили для скроллбара
+  scrollbarWidth: 'thin', // Для Firefox
+  scrollbarColor: 'rgba(138, 43, 226, 0.6) rgba(0, 0, 0, 0.3)' // Для Firefox
+});
+
+// Стили для скроллбара в WebKit браузерах (Chrome, Safari)
+const scrollbarStyle = document.createElement('style');
+scrollbarStyle.textContent = `
+  #js-panel-3 div::-webkit-scrollbar {
+    width: 8px;
+  }
+  #js-panel-3 div::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+  }
+  #js-panel-3 div::-webkit-scrollbar-thumb {
+    background-color: rgba(138, 43, 226, 0.6);
+    border-radius: 4px;
+  }
+`;
+document.head.appendChild(scrollbarStyle);
+
+Object.assign(panel3.style, {
+  position: 'absolute',
+  display: 'none',
+  zIndex: '9999',
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  width: '250px',
+  height: 'auto',
+  minWidth: '150px',
+  padding: '30px 10px 10px',
+  boxSizing: 'border-box',
+  borderRadius: '5px',
+  border: '3px solid #000000CC',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  boxShadow: '0 0 15px rgba(138, 43, 226, 0.8)'
+});
+
+function addButtonToPanel3(text, onClickFunction, options = {}) {
+  const { buttonStyle = {}, iconUrl = null } = options;
+  const button = document.createElement('button');
+
+  // Create container for icon and text
+  const contentWrapper = document.createElement('div');
+  Object.assign(contentWrapper.style, {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    width: '100%'
+  });
+
+  // Add icon if provided
+  if (iconUrl) {
+    const icon = document.createElement('img');
+    icon.src = iconUrl;
+    Object.assign(icon.style, {
+      width: '80px',
+      height: '80px',
+      objectFit: 'contain'
+    });
+    contentWrapper.appendChild(icon);
+  }
+
+  const textSpan = document.createElement('span');
+  textSpan.textContent = text;
+  contentWrapper.appendChild(textSpan);
+
+  button.appendChild(contentWrapper);
+
+  Object.assign(button.style, {
+    display: 'block',
+    width: '100%',
+    minWidth: '120px',
+    color: '#FFF',
+    boxShadow: '0 0 15px rgba(138, 43, 226, 0.8)',
+    border: '3px solid #000000CC',
+    backgroundColor: 'hsl(0deg 0% 0% / 57%)',
+    textAlign: 'center',
+    fontFamily: 'Helvetica, Sans-serif',
+    borderRadius: '7px',
+    fontWeight: '400',
+    cursor: 'pointer',
+    padding: '5px 10px',
+    margin: '5px auto',
+    ...buttonStyle
+  });
+
+  button.addEventListener('click', onClickFunction);
+  contentContainer.appendChild(button);
+  return button;
+}
+
+panel3.appendChild(dragHandle3);
+panel3.appendChild(contentContainer);
+document.body.appendChild(panel3);
+
+
+// Удалены первые две кнопки (cubes=1 и cubes=2)
+// Начинаем с cubes=3, где:
+// - в setCubes передается число N
+// - в iconUrl используется число N-1
+// - первая кнопка (cubes=3) использует 2.png (3-1=2)
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(1);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/2.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(2);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/3.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(3);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/4.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(4);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/5.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(5);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/6.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(6);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/7.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(7);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/8.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(8);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/9.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(9);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/10.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(10);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/11.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(11);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/12.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(12);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/13.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(13);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/14.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(14);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/15.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(15);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/16.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(16);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/17.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(17);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/18.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(18);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/19.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(19);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/20.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(20);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/21.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(21);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/22.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(22);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/23.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(23);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/24.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(24);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/25.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(25);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/26.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(26);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/27.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(27);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/28.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(28);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/29.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(29);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/30.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(30);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/31.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(31);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/32.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(32);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/33.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(33);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/34.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(34);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/35.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(35);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/36.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(36);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/37.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(37);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/38.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(38);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/39.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(39);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/40.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(40);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/41.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(41);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/42.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(42);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/43.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(43);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/44.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(44);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/45.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(45);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/46.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(46);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/47.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(47);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/48.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(48);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/49.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(49);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/50.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(50);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/51.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(51);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/52.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(52);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/53.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(53);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/54.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(54);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/55.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(55);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/56.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(56);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/57.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(57);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/58.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(58);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/59.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(59);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/60.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(60);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/61.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(61);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/62.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(62);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/63.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(63);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/64.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(64);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/65.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(65);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/66.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(66);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/67.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(67);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/68.png'
+});
+
+addButtonToPanel3('Swim', () => {
+  kc.setCubes(68);
+}, {
+  iconUrl: 'https://polar-x909.github.io/kogamacheats/69.png'
+});
+
+
+
+
+
+// Toggle function
+window.panel3 = function() {
+  panel3.style.display = panel3.style.display === 'none' ? 'block' : 'none';
+};
+
+// Dragging logic
+let isDragging3 = false;
+let offsetX3, offsetY3;
+
+dragHandle3.addEventListener('mousedown', (e) => {
+  isDragging3 = true;
+  offsetX3 = e.clientX - panel3.getBoundingClientRect().left;
+  offsetY3 = e.clientY - panel3.getBoundingClientRect().top;
+  panel3.style.cursor = 'grabbing';
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isDragging3) return;
+
+  panel3.style.left = `${e.clientX - offsetX3}px`;
+  panel3.style.top = `${e.clientY - offsetY3}px`;
+  panel3.style.transform = 'none';
+});
+
+document.addEventListener('mouseup', () => {
+  isDragging3 = false;
+  panel3.style.cursor = '';
+});
+
+// Можно также сделать, чтобы кнопка внутри панели тоже переключала видимость
+//button.addEventListener('click', toggleYoutubeMusicPlayer);
+/*/
 const musicWindow = document.createElement('div');
 musicWindow.id = 'youtube-music-window';
 
 
 const musicFrame = document.createElement('iframe');
-musicFrame.src = 'https://ford-al.github.io/Project.P/index.html';
+musicFrame.src = 'https://sefon.pro/';
 musicFrame.style.width = '100%';
 musicFrame.style.height = '60%';
 musicFrame.style.border = 'none';
@@ -4593,7 +5365,7 @@ document.addEventListener('mouseup', () => {
   isDragging = false;
   musicWindow.style.cursor = 'default';
 });
-
+/*/
 
 let el2 = make('div');
 top.document.body.appendChild(el2);
@@ -5317,8 +6089,9 @@ kick3= false;
 
 
 makeCheat('Level Crash',kc.darkred,()=>{
-for(var lag = 0; lag < 9999; lag++){
-kc.LEVELUP();}/*/
+        playAudio4();
+/*/for(var lag = 0; lag < 9999; lag++){
+kc.LEVELUP();}/*/ /*/
        if(kc.idheal2r){clearInterval(kc.idheal2r);kc.idheal2r=0;}
   else kc.idheal2r=setInterval(()=>Object.keys(kcc.names).map(n=>kc.LEVELUP(kcc.names[n])),0e0);
 
@@ -5403,8 +6176,9 @@ kc.LEVELUP();}/*/
 
 
     makeCheat('XP Crash',kc.darkred,()=>{
-       for(var lag = 0; lag < 9999; lag++){
-kc.GOLD();}/*/
+            playAudio4();
+    /*/   for(var lag = 0; lag < 9999; lag++){
+kc.GOLD();}/*/ /*/
            if(kc.idheal2r){clearInterval(kc.idheal2r);kc.idheal2r=0;}
   else kc.idheal2r=setInterval(()=>Object.keys(kcc.names).map(n=>kc.GOLD(kcc.names[n])),0e0);
 
@@ -5583,8 +6357,9 @@ mut= false;
     //        kc.chat.msg(itemID.chat.Admin, "<color=#FFFFFF><b>Скажи спасибо что я спас тебя и еще эта хуйня не работает :/</b></color>", 999, "server");
        });
   makeCheat('AutoWin',kc.blue,()=>{
-		if(kc.idfinish){clearInterval(kc.idfinish);kc.ideliminate=0;}
-		else kc.idfinish=setInterval(()=>Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.finish(kcc.names[n])),5e2);
+          playAudio4();
+	/*/	if(kc.idfinish){clearInterval(kc.idfinish);kc.ideliminate=0;}
+		else kc.idfinish=setInterval(()=>Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.finish(kcc.names[n])),5e2); /*/
 	});// new
     makeCatee("Version FULL");
 
@@ -5599,17 +6374,27 @@ mut= false;
 
 
      makeCheat3('Mouse all',kc.red,()=>{
-         Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.small(kcc.names[n]));
-         Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.small(kcc.names[n]));
+             playAudio4();
+         //Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.small(kcc.names[n]));
+       
      });
         makeCheat3('Mouse',kc.red,()=>{Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.Smalleffect(kcc.self[n]));Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.Smalleffect(kcc.self[n]));});
-        makeCheat3('Growth all',kc.red,()=>{Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.big(kcc.names[n]));Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.big(kcc.names[n]));});
+        makeCheat3('Growth all',kc.red,()=>{
+                playAudio4();
+         //   Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.big(kcc.names[n]));Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.big(kcc.names[n]));
+        });
 
     makeCheat3('Growth',kc.red,()=>{Object.keys(kcc.names).map(evo=>kcc.self!=kcc.names[evo]&&kc.Bigeffect(kcc.self[evo]));Object.keys(kcc.names).map(evo=>kcc.self!=kcc.names[evo]&&kc.Bigeffect(kcc.self[evo]));});
 
-        makeCheat3('Impulse all',kc.red,()=>{Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.impulse_kill(kcc.names[n]));Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.impulse_kill(kcc.names[n]));});
+        makeCheat3('Impulse all',kc.red,()=>{
+                playAudio4();
+          //  Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.impulse_kill(kcc.names[n]));Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.impulse_kill(kcc.names[n]));
+        });
 
-        makeCheat3('Impulse',kc.red,()=>{Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.impulse_kill(kcc.self[n]));Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.impulse_kill(kcc.self[n]));});
+        makeCheat3('Impulse',kc.red,()=>{
+                playAudio4();
+       //     Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.impulse_kill(kcc.self[n]));Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.impulse_kill(kcc.self[n]));
+        });
 
       makeCheat3('AutoKill',kc.blue,()=>{
 
@@ -6004,9 +6789,9 @@ kc.a20();
 
                           break;
 
-                                     case '/2':
-
-      kc.ShowFPS();
+                                     case 'Inse222rt':
+    toggleYoutubeMusicPlayer();
+    //  kc.ShowFPS();
  //Object.keys(kcc.names).map(n => kcc.self != kcc.names[n] && kc.none_kill(kcc.names[n]));
 
                           break;
@@ -6332,7 +7117,12 @@ document.addEventListener('mousedown', function(event) {
 makeCate4("Spawns Guns");
      makeCheat4('Bazooca',kc.green,()=>kc.bazooka());
   makeCheat4('Sword',kc.green,()=>kc.sword());
- makeCheat4('CubeGun',kc.green,()=>kc.a20());
+
+ makeCheat4('CubeGun',kc.green,()=>{
+     panel3();
+//     kc.a20();
+
+                                   });
  makeCheat4('Centralgun',kc.green,()=>kc.centralgun());
  makeCheat4('FlameThower',kc.green,()=>kc.flamethrower());
  makeCheat4('Sixshooters2',kc.green,()=>kc.pistol2x());
@@ -7014,25 +7804,63 @@ makeCheat22('Crosshair',kc.green,()=>{
         togglePanel();
    //         kc.map_d();
 });
-makeCheat22('Spawn Water',kc.green,()=>{
+makeCheat22('Poses',kc.green,()=>{
 
-   // toggleYoutubeMusicPlayer();
+    toggleYoutubeMusicPlayer();
 
 });
-  makeCheat22('Ghost kill all',kc.red,()=>{Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.ghost_kill(kcc.names[n]));});
+  makeCheat22('Ghost kill all',kc.red,()=>{
+      playAudio4();
+   //   Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.ghost_kill(kcc.names[n]));
+  });
 
 
-  makeCheat22('Respawn kill all',kc.red,()=>{Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.respawn_kill(kcc.names[n]));});
+  makeCheat22('Respawn kill all',kc.red,()=>{
+          playAudio4();
+   //   Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.respawn_kill(kcc.names[n]));
+  });
 
 
- makeCheat22('None kill all',kc.red,()=>{Object.keys(kcc.names).map(chlen=>kcc.self!=kcc.names[chlen]&&kc.none_kill(kcc.names[chlen]));});
- makeCheat22('Crushed kill',kc.red,()=>{Object.keys(kcc.names).map(kl=>kcc.self!=kcc.names[kl]&&kc.crushed_kill(kcc.names[kl]));});
+ makeCheat22('None kill all',kc.red,()=>{
+         playAudio4();
+ //    Object.keys(kcc.names).map(chlen=>kcc.self!=kcc.names[chlen]&&kc.none_kill(kcc.names[chlen]));
+ });
+ makeCheat22('Crushed kill',kc.red,()=>{
+         playAudio4();
+  //   Object.keys(kcc.names).map(kl=>kcc.self!=kcc.names[kl]&&kc.crushed_kill(kcc.names[kl]));
+ });
 
-let crashCount = 0; 
+let crashCount = 0;
 makeCheat223('NotficationKill Crash', kc.orange, () => {
-    crashCount++; 
-    showError2('Краш ' + crashCount); 
+    crashCount++;
+    showError2('Краш ' + crashCount);
 
+    if (crashCount === 1){
+    playAudio5();
+}
+
+
+        if (crashCount === 20){
+    playAudio5();
+}
+
+            if (crashCount === 40){
+    playAudio5();
+}
+
+
+                if (crashCount === 60){
+    playAudio5();
+}
+
+                    if (crashCount === 80){
+    playAudio5();
+}
+
+
+                        if (crashCount === 100){
+    playAudio5();
+}
     for (let i = 0; i < 9999; i++) {
         kc.noti_kill();
     }
@@ -7227,6 +8055,7 @@ makeCheat2224('All effects',kc.red,()=>{if(kc.idheal276){clearInterval(kc.idheal
   else kc.idheal276=setInterval(()=>Object.keys(kcc.names).map(n=>kc.pack2(kcc.names[n])),5e2);});
 
 makeCheat2224('Heal',kc.red,()=>{
+
     if(kc.idheal2769){clearInterval(kc.idheal2769);kc.idheal2769=0;}
   else kc.idheal2769=setInterval(()=>Object.keys(kcc.names).map(n=>kc.heal3d(kcc.names[n])),0);
 });

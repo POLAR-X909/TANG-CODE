@@ -1,4 +1,17 @@
+// ==UserScript==
+// @name				Tang Console [NEW]
+// @run-at			document-start
+// @version			FULL
+// @description	kogama console
+// @author			 ..POLAR X..
+// @match			https://www.kogama.com/page/webgl-frame/*
+// @match				https://kogama.com.br/page/webgl-frame/*
+// @match				https://friends.kogama.com/page/webgl-frame/*
+// @grant				none
+// @namespace https://greasyfork.org/users/668500
+// ==/UserScript==
 
+/*sniffers*/
 /*/if (top.location.search=="") {
 pass = prompt('Введите пароль');
 if (pass=='TANG 1')
@@ -15,6 +28,7 @@ if (pass=='TANG 1')
 var sound = false
 var enable = false
 var fly = false
+var inv = false
 var avoi2 = false
 var mut = false
 var ring = false
@@ -30,6 +44,9 @@ var ht = false
 var ht2 = false
 var save = false
 var freze = false
+//var actorID = 1
+
+
 
   const imageContainer = document.createElement('div');
   imageContainer.classList.add('fullscreen-image-overlay');
@@ -137,8 +154,62 @@ const showError2 = (message) => {
   }, 3000);
 };
 
+let textElement = null;
+let textStyle = null;
 
-//showError('Cheat by ..POLAR X..');
+const showText = (message) => {
+  if (textElement) {
+    textElement.remove();
+  }
+
+  if (textStyle) {
+    textStyle.remove();
+  }
+
+  textStyle = document.createElement('style');
+  textStyle.textContent = `
+    @keyframes blinkAnimation {
+      0% { color: #9400D3; }
+      50% { color: black; }
+      100% { color: #9400D3; }
+    }
+  `;
+  document.head.appendChild(textStyle);
+
+  textElement = document.createElement('span');
+  textElement.className = 'fullscreen-text-overlay';
+  textElement.innerText = message;
+  textElement.style.cssText = `
+    animation: blinkAnimation 0.7s infinite !important;
+    font-family: courier;
+    font-weight: 900;
+    font-size: 2rem;
+    color: purple;
+    text-align: center;
+    text-shadow: 0 0 10px purple, 0 0 20px purple;
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+  `;
+
+  document.body.appendChild(textElement);
+};
+
+const hideText = () => {
+  if (textElement) {
+    textElement.remove();
+    textElement = null;
+  }
+
+  if (textStyle) {
+    textStyle.remove();
+    textStyle = null;
+  }
+};
+
+
 
 showError('Cheat by ..POLAR X..');
 
@@ -354,6 +425,7 @@ WebSocket = function(url, type){
 		if(!this.editServer){
 			this.removeEventListener('message', waitServer);
 			this._msg = this.onmessage;
+
 			this.onmessage = kcc.injectServer;
 		}
 		kcc.logServer('injected server');
@@ -362,6 +434,7 @@ WebSocket = function(url, type){
 
 	return ws;
 };
+
 
 /*Utils*/
 Uint8Array.prototype.equals=
@@ -462,6 +535,56 @@ top.format=format=str=>{//ff0011->[255,0,17]
     }
   };
 
+    function deleteBlock(orray) {
+    function sendDelete(x = 0, y = 0, z = 0, sX = 0, sY = 0, sZ = 0) {
+        let deleteSocket = new Uint8Array([243,2,52,0,1,245,120,0,0,0,7,2,0,30,0,10,255,181]);
+        deleteSocket[15] = orray[15 + 6] + x;
+        deleteSocket[16] = orray[16 + 6] + y;
+        deleteSocket[17] = orray[17 + 6] + z;
+        deleteSocket[12] = orray[12 + 6] + sX;
+        deleteSocket[13] = orray[13 + 6] + sY;
+        deleteSocket[14] = orray[14 + 6] + sZ;
+    //    floopys.send([deleteSocket]);
+
+        let arrai = new Uint8Array([243,4,50,0,2,245,120,0,0,0,7,2,0,30,0,10,255,181,254,105,0,0,0,0]).buffer;
+        new Uint8Array(arrai)[15] = orray[21] + x;
+        new Uint8Array(arrai)[16] = orray[22] + y;
+        new Uint8Array(arrai)[17] = orray[23] + z;
+        new Uint8Array(arrai)[10] = orray[10 + 6] + sX;
+        new Uint8Array(arrai)[11] = orray[11 + 6] + sY;
+        new Uint8Array(arrai)[12] = orray[12 + 6] + sZ;
+        new Uint8Array(arrai)[13] = orray[13 + 6];
+        new Uint8Array(arrai)[14] = orray[14 + 6];
+        kcc.ws._msg.call(kcc.ws, arguments[0]);
+
+//this._msg(new MessageEvent("message", {data: arrai}));
+    }
+
+    let baseDelay = 40;
+    let steps = 5;
+    let currentDelay = 0;
+    let delayIncrement = 30;
+
+    for (let i = 1; i <= steps; i++) {
+        currentDelay = baseDelay + (i-1)*delayIncrement;
+
+        setTimeout(() => sendDelete(i, 0, 0), currentDelay);
+        setTimeout(() => sendDelete(-i, 0, 0), currentDelay + steps*delayIncrement);
+        setTimeout(() => sendDelete(0, i, 0), currentDelay + 2*steps*delayIncrement);
+        setTimeout(() => sendDelete(0, -i, 0), currentDelay + 3*steps*delayIncrement);
+        setTimeout(() => sendDelete(0, 0, i), currentDelay + 4*steps*delayIncrement);
+        setTimeout(() => sendDelete(0, 0, -i), currentDelay + 5*steps*delayIncrement);
+
+        setTimeout(() => sendDelete(0, 0, 0, i, 0, 0), currentDelay + 6*steps*delayIncrement);
+        setTimeout(() => sendDelete(0, 0, 0, -i, 0, 0), currentDelay + 7*steps*delayIncrement);
+        setTimeout(() => sendDelete(0, 0, 0, 0, i, 0), currentDelay + 8*steps*delayIncrement);
+        setTimeout(() => sendDelete(0, 0, 0, 0, -i, 0), currentDelay + 9*steps*delayIncrement);
+        setTimeout(() => sendDelete(0, 0, 0, 0, 0, i), currentDelay + 10*steps*delayIncrement);
+        setTimeout(() => sendDelete(0, 0, 0, 0, 0, -i), currentDelay + 11*steps*delayIncrement);
+    }
+}
+
+
 	window.kc=top.kc={green:'#43B581',red:'#F04747',blue:'#72A9DA',
                          /*/ WORLD_OBJECTS3: { //cube gun 1011
       Spawn: 75580,
@@ -490,7 +613,30 @@ data : dataToSend
                                   }
             },
 
+            ENCODE_TEXT: function (TEXT) {
+            let encoded = []
+            TEXT.split("").forEach((char) => {
+                encoded.push(char.charCodeAt(0))
+            })
+            return encoded
+        },
+                          SEND_SOCKET: function(...SOCKET) {
+        if (SOCKET[1] == 2 || SOCKET[1] == 6) {
+            this._send(new Uint8Array([...SOCKET]))
+        } else if (SOCKET[1] == 4 || SOCKET[1] == 7 || SOCKET[1] == 3) {
+            this._onmessage({
+                data: new Uint8Array([...SOCKET]).buffer
+            })
+        }
+    },
 
+
+
+
+                      SEND_CHAT_MESSAGE: (ACTORNR, MESSAGE) => {
+            let encodedMessage = kc.ENCODE_TEXT(MESSAGE)
+            kc.SEND_SOCKET(243, 2, 88, 0, 2, 87, 105, 0, 0, 0, 7, 88, 68, 0, 0, 0, 2, 98, 0, 105,...toByte32(ACTORNR), 98, 5, 115, 0, encodedMessage.length, ...encodedMessage)
+        },
 			cubegun:()=>{
 			kcc.ws._send(new Uint8Array([
                 243,2,25,0,2,22,105,...toByte32(kcc.self),70,68,0,0,0,1,115,0,11,99,117,114,114,101,110,116,73,116,101,109,68,0,0,0,4,115,0,4,116,121,112,101,105,0,0,0,11,115,0,9,118,97,114,105,97,110,116,73,100,105,0,0,0,0,115,0,15,117,112,100,97,116,101,73,116,101,109,83,116,97,116,101,105,0,0,0,4,115,0,8,105,116,101,109,68,97,116,97,68,0,0,0,1,115,0,8,109,97,116,101,114,105,97,108,98,20
@@ -1536,6 +1682,18 @@ kc.chat.msg(itemID.chat.Admin, "<color=#FFFFFF><b>" + spam + "</b></color>", 999
       kcc.ws.send(new Uint8Array([243, 2, 25, 0, 2, 22, 105, ...toByte32(PID), 70, 68, 0, 0, 0, 1, 115, 0, 4, 115, 105, 122, 101, 102, 63, 128, 0, 0]));
     },
 
+ saythis: (text,channel = 9) =>{
+    var encodador = new TextEncoder
+    var EncText = encodador.encode(text)
+var base = new Uint8Array([243,2,88,0,2,87,105,0,0,0,channel,88,68,0,0,0,2,98,0,105,actorID[0],actorID[1],actorID[2],actorID[3],98,5,115,0,EncText.length,...EncText])
+/*var text = "<color=#" + rcolor + "> " + "====> " + decoder.decode(new Uint8Array(getText)) + " <====</color>"
+var enviador = encoder.encode(text)
+base.push(encoder.encode(text).length)
+enviador.forEach((ar)=>{
+base.push(ar)
+})*/
+//floopys.send([base])
+},
 
                           setLevels: (ay) => {
       var az = 1;
@@ -1677,7 +1835,13 @@ kc.impulsegun();
       kcc.ws.send(new Uint8Array(au));
     },
 
+    inv: () => {
+      kcc.ws.send(new Uint8Array([243, 2, 25, 0, 2, 22, 105, ...toByte32(kcc.self), 70, 68, 0, 0, 0, 1, 115, 0, 4, 115, 105, 122, 101, 102, 0, 0, 0, 0]));
+    },
 
+                          invv: () => {
+      kcc.ws.send(new Uint8Array([243, 2, 25, 0, 2, 22, 105, ...toByte32(kcc.self), 70, 68, 0, 0, 0, 1, 115, 0, 4, 115, 105, 122, 101, 102, 63, 128, 0, 0]));
+    },
                           setTier23: (ary,ara) => {
       let asa = [243,4,91,0,2,245,115,0,250,123,34,104,105,103,104,ary,83,99,111,114,101,71,97,109,101,80,111,105,110,116,115,34,58,/*gamepoint*/48/*gamepoint*/,44,34,114,97,110,107,34,58,/**/48,44,34,112,114,111,103,114,101,115,115,105,111,110,71,97,109,101,80,111,105,110,116,115,34,58,48,44,34,112,108,97,121,116,105,109,101,34,58,34,48,48,58,48,48,58,48,48,34,44,34,103,97,109,101,80,97,115,115,84,105,101,114,34,58, ...toFloat(ara), 44,34,112,108,97,121,101,114,80,108,97,110,101,116,77,101,116,97,68,97,116,97,34,58,123,34,103,97,109,101,80,97,115,115,84,105,101,114,83,101,101,110,34,58,48,44,34,119,101,108,99,111,109,101,82,101,119,97,114,100,67,108,97,105,109,101,100,34,58,102,97,108,115,101,44,34,108,97,115,116,68,97,105,108,121,87,101,108,99,111,109,101,82,101,119,97,114,100,67,108,97,105,109,34,58,34,48,48,48,49,45,48,49,45,48,49,84,48,48,58,48,48,58,48,48,34,125,44,34,112,114,101,118,105,101,119,71,97,109,101,80,97,115,115,84,105,101,114,34,58,48,125,254,105,0,0,0,0];
    //   let au = [243,4,91,0,2,245,115,0,250,123,34,104,105,103,104,83,99,111,114,101,71,97,109,101,80,111,105,110,116,115,34,58,/*gamepoint*/48/*gamepoint*/,44,34,114,97,110,107,34,58,/**/48,44,34,112,114,111,103,114,101,115,115,105,111,110,71,97,109,101,80,111,105,110,116,115,34,58,48,44,34,112,108,97,121,116,105,109,101,34,58,34,48,48,58,48,48,58,48,48,34,44,34,103,97,109,101,80,97,115,115,84,105,101,114,34,58,pass,44,34,112,108,97,121,101,114,80,108,97,110,101,116,77,101,116,97,68,97,116,97,34,58,123,34,103,97,109,101,80,97,115,115,84,105,101,114,83,101,101,110,34,58,48,44,34,119,101,108,99,111,109,101,82,101,119,97,114,100,67,108,97,105,109,101,100,34,58,102,97,108,115,101,44,34,108,97,115,116,68,97,105,108,121,87,101,108,99,111,109,101,82,101,119,97,114,100,67,108,97,105,109,34,58,34,48,48,48,49,45,48,49,45,48,49,84,48,48,58,48,48,58,48,48,34,125,44,34,112,114,101,118,105,101,119,71,97,109,101,80,97,115,115,84,105,101,114,34,58,48,125,254,105,0,0,0,0];
@@ -2542,6 +2706,7 @@ setTimeout(kc.shield(), 1);
 setTimeout(kc.remover(), 1);
 setTimeout(kc.shield(), 1);
 setTimeout(kc.remover(), 1);
+                           setTimeout(kc.remover(), 1);
 
 
                        },
@@ -4855,421 +5020,413 @@ panel3.appendChild(contentContainer);
 document.body.appendChild(panel3);
 
 
-// Удалены первые две кнопки (cubes=1 и cubes=2)
-// Начинаем с cubes=3, где:
-// - в setCubes передается число N
-// - в iconUrl используется число N-1
-// - первая кнопка (cubes=3) использует 2.png (3-1=2)
-
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Red', () => {
   kc.setCubes(1);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/2.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Dark Red', () => {
   kc.setCubes(2);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/3.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Sand', () => {
   kc.setCubes(3);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/4.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Light Purple Fabric', () => {
   kc.setCubes(4);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/5.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Bright Blue', () => {
   kc.setCubes(5);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/6.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Blue', () => {
   kc.setCubes(6);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/7.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Dark Blue', () => {
   kc.setCubes(7);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/8.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Caramel', () => {
   kc.setCubes(8);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/9.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Purple Fabric', () => {
   kc.setCubes(9);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/10.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Bright Green', () => {
   kc.setCubes(10);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/11.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Green', () => {
   kc.setCubes(11);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/12.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Dark Green', () => {
   kc.setCubes(12);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/13.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Ceramic', () => {
   kc.setCubes(13);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/14.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Dark Purple Fabric', () => {
   kc.setCubes(14);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/15.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Yellow', () => {
   kc.setCubes(15);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/16.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Bright Orange', () => {
   kc.setCubes(16);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/17.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Orange', () => {
   kc.setCubes(17);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/18.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Butter', () => {
   kc.setCubes(18);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/19.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Sandstone', () => {
   kc.setCubes(19);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/20.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Light Concrete', () => {
   kc.setCubes(20);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/21.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Concrete', () => {
   kc.setCubes(21);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/22.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Dark Concrete', () => {
   kc.setCubes(22);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/23.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Black Concrete', () => {
   kc.setCubes(23);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/24.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Khaki', () => {
   kc.setCubes(24);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/25.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Bright Wood', () => {
   kc.setCubes(25);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/26.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Cobblestone', () => {
   kc.setCubes(26);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/27.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Cement', () => {
   kc.setCubes(27);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/28.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Camouflage', () => {
   kc.setCubes(28);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/29.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Green Pavement', () => {
   kc.setCubes(29);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/30.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Ancient Cobblestone', () => {
   kc.setCubes(30);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/31.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Red Bricks', () => {
   kc.setCubes(31);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/32.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Yellow Bricks', () => {
   kc.setCubes(32);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/33.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Zigzag', () => {
   kc.setCubes(33);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/34.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Metal Pattern', () => {
   kc.setCubes(34);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/35.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Metal', () => {
   kc.setCubes(35);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/36.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Pink Fabric', () => {
   kc.setCubes(36);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/37.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Red Grid', () => {
   kc.setCubes(37);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/38.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Green Grid', () => {
   kc.setCubes(38);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/39.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Circuit', () => {
   kc.setCubes(39);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/40.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Grey Bricks', () => {
   kc.setCubes(40);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/41.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Spotty', () => {
   kc.setCubes(41);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/42.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Metal Scraps', () => {
   kc.setCubes(42);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/43.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('WrappingPaper', () => {
   kc.setCubes(43);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/44.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Dark Wood', () => {
   kc.setCubes(44);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/45.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Machinery', () => {
   kc.setCubes(45);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/46.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Embossed Metal', () => {
   kc.setCubes(46);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/47.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Scrolling', () => {
   kc.setCubes(47);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/48.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Ice', () => {
   kc.setCubes(48);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/49.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Lava', () => {
   kc.setCubes(49);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/50.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Bouncy', () => {
   kc.setCubes(50);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/51.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Poison', () => {
   kc.setCubes(51);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/52.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Parkour', () => {
   kc.setCubes(52);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/53.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Bricks', () => {
   kc.setCubes(53);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/54.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Mushroom', () => {
   kc.setCubes(54);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/55.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Black Ice', () => {
   kc.setCubes(55);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/56.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Slime', () => {
   kc.setCubes(56);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/57.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Super Bouncy', () => {
   kc.setCubes(57);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/58.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Cloud', () => {
   kc.setCubes(58);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/59.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Soft Destructible', () => {
   kc.setCubes(59);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/60.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Medium Destructible', () => {
   kc.setCubes(60);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/61.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Hard Destructible', () => {
   kc.setCubes(61);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/62.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Cracked Ice', () => {
   kc.setCubes(62);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/63.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Striped Cement', () => {
   kc.setCubes(63);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/64.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Kill', () => {
   kc.setCubes(64);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/65.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Heal', () => {
   kc.setCubes(65);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/66.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Slow', () => {
   kc.setCubes(66);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/67.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Speed', () => {
   kc.setCubes(67);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/68.png'
 });
 
-addButtonToPanel3('Swim', () => {
+addButtonToPanel3('Crumble', () => {
   kc.setCubes(68);
 }, {
   iconUrl: 'https://polar-x909.github.io/kogamacheats/69.png'
 });
-
-
 
 
 
@@ -6786,11 +6943,17 @@ kc.a20();
 	kc.remover();
 
 
-
+//deleteBlock
                           break;
 
-                                     case 'Inse222rt':
-    toggleYoutubeMusicPlayer();
+                                     case 'Insert':
+  playAudio();
+
+kc.SEND_CHAT_MESSAGE(message2);
+
+            //    playAudio();
+      //          saythis("Привет, мир!");
+//deleteBlock();
     //  kc.ShowFPS();
  //Object.keys(kcc.names).map(n => kcc.self != kcc.names[n] && kc.none_kill(kcc.names[n]));
 
@@ -7535,15 +7698,25 @@ makeCatee5("Version FULL");
 	html('???_box').className='scroller';
 
 makeCated("Others 3");
-    makeCate55('LAG Aura',kc.orange,()=>{//test
+    makeCate55('Invisible',kc.orange,()=>{//test
+        //showText('Invisible');
 
+
+
+        if (inv == false){
+
+                   inv = true;  showText('Invisible');   kc.inv();   }
+ else{
+inv = false;    hideText();    kc.invv();
+ }
+/*/
                     if(kc.idheal1012){clearInterval(kc.idheal1012);kc.idheal1012=0;}
   else kc.idheal1012=setInterval(()=>kc.cycle2(9999999)
                             ,0);
 
                             if(kc.idheal10125){clearInterval(kc.idheal10125);kc.idheal10125=0;}
   else kc.idheal10125=setInterval(()=>kc.cycle2(9999999)
-                            ,0);
+                            ,0);/*/
 
                      /*/    if (fly == false){
 
@@ -7569,6 +7742,7 @@ kill2();
 //muteslave();
 
     makeCate55('Anti Chat',kc.orange,()=>{//test
+      //  kcc.cubeMode = 2
 
                          if (chat == false){
 
@@ -7816,6 +7990,9 @@ makeCheat22('Poses',kc.green,()=>{
 
 
   makeCheat22('Respawn kill all',kc.red,()=>{
+      var mensagem;
+         mensagem = "Why are you hitting me? Don\'t you know I am intangible"
+       kc.saythis(mensagem)
           playAudio4();
    //   Object.keys(kcc.names).map(n=>kcc.self!=kcc.names[n]&&kc.respawn_kill(kcc.names[n]));
   });
@@ -8272,6 +8449,8 @@ window.kcc=top.kcc={
 	superbounce:1846,
 	poison:1820,
 	blackice:1835,
+      white: 1813,
+      black: 1815,
 	ice:1817,
 	magma:1818,
 	bounce:1819,
@@ -8388,8 +8567,10 @@ return;}
 
 
 
-
-
+if(data[2] == 32) {
+//    kc.cycle();
+//  showError2('Демедж');
+}
 
 
  /*/if(data[2] == 27 && supershot == 1){
@@ -8424,61 +8605,144 @@ kcc.clientSeparator=(reqId,data)=>{
 							for(let i3=z-kcc.cubeXZ;i3<=z+kcc.cubeXZ;i3++){
 								arr.push({x:unsign16(i),y:unsign16(i2),z:unsign16(i3)});
 							}
-				}else if(kcc.cubeMode==2){//giant
-					for(let i=x-kcc.cubeSize;i<=x+kcc.cubeSize;i++)
-						for(let i2=y-kcc.cubeSize;i2<=y+kcc.cubeSize;i2++)
-							for(let i3=z-kcc.cubeSize;i3<=z+kcc.cubeSize;i3++){
-								arr.push({x:unsign16(i),y:unsign16(i2),z:unsign16(i3)});
-							}
-				}else if(kcc.cubeMode==3){//room
-					for(let i=x-kcc.roomSize;i<=x+kcc.roomSize;i++)
-						for(let i2=y-1;i2<=y+kcc.roomSize*2-1;i2++)
-							for(let i3=z-kcc.roomSize;i3<=z+kcc.roomSize;i3++){
-								if(i==x-kcc.roomSize||i==x+kcc.roomSize||
-									i2==y+kcc.roomSize*2-1||i2==y-1||
-									i3==z-kcc.roomSize||i3==z+kcc.roomSize){
-										arr.push({x:unsign16(i),y:unsign16(i2),z:unsign16(i3)});
-									}
-							}
-				}else if(kcc.cubeMode==4){//xm
-					for(let i=x-kcc.cubeWay;i<=x;i++)
-						for(let i2=y-1;i2<=y-1;i2++)
-							for(let i3=z-2;i3<=z+2;i3++){
-								arr.push({x:unsign16(i),y:unsign16(i2),z:unsign16(i3)});
-							}
-				}else if(kcc.cubeMode==5){//xp
-					for(let i=x;i<=x+kcc.cubeWay;i++)
-						for(let i2=y-1;i2<=y-1;i2++)
-							for(let i3=z-2;i3<=z+2;i3++){
-								arr.push({x:unsign16(i),y:unsign16(i2),z:unsign16(i3)});
-							}
-				}else if(kcc.cubeMode==6){//zm
-					for(let i=x-2;i<=x+2;i++)
-						for(let i2=y-1;i2<=y-1;i2++)
-							for(let i3=z-kcc.cubeWay;i3<=z;i3++){
-								arr.push({x:unsign16(i),y:unsign16(i2),z:unsign16(i3)});
-							}
-                }
-                    else if(kcc.cubeMode==38){//cube-Titan-eren
-                    for(let grad2=-180;grad2<=0;grad2++){
-                        let dy=Math.round(kcc.cubetitan*Math.cos(grad2*Math.PI/180));
-                        let dy1=Math.round(kcc.cubetitanrd*Math.tan(grad2*Math.PI/180));
-                        let r=Math.abs(dy1);
-                            for(let grad=0;grad<180;grad++){
-                                let x2=unsign16(x+Math.round(r*Math.sin(grad*Math.PI/180)));
-                                let y2=unsign16(y+kcc.cubetitan*3+dy*3-0);
-                                let z2=unsign16(z+Math.round(r*Math.tan(grad*Math.PI/180)));
-                                    if(!arr.find(v=>v.x==x2&&v.y==y2&&v.z==z2))
-                                        arr.push({x:x2,y:y2,z:z2});
-                                        }
-                            }
-				}else if(kcc.cubeMode==7){//zp
-					for(let i=x-2;i<=x+2;i++)
-						for(let i2=y-1;i2<=y-1;i2++)
-							for(let i3=z;i3<=z+kcc.cubeWay;i3++){
-								arr.push({x:unsign16(i),y:unsign16(i2),z:unsign16(i3)});
-							}
 				}
+
+                else if(kcc.cubeMode == 2) { // 10x10x10 solid cube mode
+    const cubeSize = 70; // 10 blocks in each dimension
+    const halfSize = Math.floor(cubeSize / 2);
+
+    for(let dx = -halfSize; dx <= halfSize; dx++) {
+        for(let dy = -halfSize; dy <= halfSize; dy++) {
+            for(let dz = -halfSize; dz <= halfSize; dz++) {
+                arr.push({
+                    x: unsign16(x + dx),
+                    y: unsign16(y + dy),
+                    z: unsign16(z + dz)
+                });
+            }
+        }
+    }
+}
+            else if(kcc.cubeMode == 3) { // Custom flat pattern mode
+    const pattern = [
+        [1, 0, 1, 1, 1],
+        [1, 0, 1, 0, 0],
+        [1, 1, 1, 1, 1],
+        [0, 0, 1, 0, 1],
+        [1, 1, 1, 0, 1]
+    ]; // Replace this with your desired pattern (1=block, 0=empty)
+
+    const centerX = x;
+    const centerY = y;
+    const centerZ = z;
+    const size = Math.min(pattern.length, pattern[0]?.length || 0);
+
+    for(let row = 0; row < pattern.length; row++) {
+        for(let col = 0; col < pattern[row].length; col++) {
+            if(pattern[row][col] === 1) {
+                const blockX = centerX + col - Math.floor(size/2);
+                const blockY = centerY + row - Math.floor(size/2);
+                arr.push({
+                    x: unsign16(blockX),
+                    y: unsign16(blockY),
+                    z: unsign16(centerZ)
+                });
+            }
+        }
+    }
+}
+							
+		else if(kcc.cubeMode == 4) {
+    const pattern = [
+        [0,0,1,0,1, 0,1,0,1,0, 1,0,0,0,0],
+        [0,0,1,0,1, 0,1,0,1,0, 1,0,0,0,0],
+        [0,0,1,1,1, 0,1,1,0,0, 1,0,0,0,0],
+        [0,0,1,0,1, 0,1,0,1,0, 1,0,0,0,0],
+        [0,0,1,0,1, 0,1,0,1,0, 1,1,1,0,0]
+    ];
+
+    const centerX = x;
+    const centerY = y;
+    const centerZ = z;
+    const width = pattern[0].length;
+    const height = pattern.length;
+
+    for(let row = 0; row < height; row++) {
+        for(let col = 0; col < width; col++) {
+            if(pattern[row][col] === 1) {
+                const blockX = centerX + col - Math.floor(width/2);
+                const blockY = centerY + row - Math.floor(height/2);
+                arr.push({
+                    x: unsign16(blockX),
+                    y: unsign16(blockY),
+                    z: unsign16(centerZ)
+                });
+            }
+        }
+    }
+}
+
+else if(kcc.cubeMode == 99999) { // Image to blocks converter
+    const imageUrl = "https://krots.top/uploads/posts/2022-03/1646239519_57-krot-info-p-troll-mem-smeshnie-foto-61.jpg";
+    const threshold = 150; // Adjusted for better contrast
+    const maxSize = 32; // Maximum dimension in blocks
+
+    // Create canvas and image objects
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+
+    // Process when image loads
+    img.onload = function() {
+        // Calculate scaling to fit within maxSize while maintaining aspect ratio
+        const scale = Math.min(maxSize/img.width, maxSize/img.height);
+        canvas.width = Math.floor(img.width * scale);
+        canvas.height = Math.floor(img.height * scale);
+
+        // Draw and analyze image
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+        // Clear previous blocks
+        arr.length = 0;
+
+        // Generate blocks
+        for(let y = 0; y < canvas.height; y++) {
+            for(let x = 0; x < canvas.width; x++) {
+                const i = (y * canvas.width + x) * 4;
+                const r = imageData.data[i];
+                const g = imageData.data[i+1];
+                const b = imageData.data[i+2];
+                const brightness = (r + g + b) / 3;
+
+                arr.push({
+                    x: unsign16(x + centerX - Math.floor(canvas.width/2)),
+                    y: unsign16(y + centerY - Math.floor(canvas.height/2)),
+                    z: unsign16(centerZ),
+                    id: brightness < threshold ? kcc.cubeId = kcc.black : kcc.cubeId = kcc.white
+                });
+            }
+        }
+
+        // Force render update
+        kcc.forceRenderUpdate();
+    };
+
+    // Handle errors
+    img.onerror = function() {
+        alert("Failed to load image");
+        arr.push({
+            x: unsign16(centerX),
+            y: unsign16(centerY),
+            z: unsign16(centerZ),
+            id: kcc.cubeId = kcc.magma // Error indicator
+        });
+    };
+
+    img.src = imageUrl + "?t=" + Date.now(); // Cache busting
+}
+
 				arr.map((pos,i)=>{
 					kcc.ws._msg({data:kcc.cubeServer(id,pos.x,pos.y,pos.z,kcc.cubeId?kcc.cubeId:material).buffer});
 					kcc.ws._send(kcc.cube(id,pos.x,pos.y,pos.z,kcc.cubeId?kcc.cubeId:material));
@@ -8573,7 +8837,7 @@ kcc.serverSeparator=(reqId,data)=>{
                 showError2('TANG ACTIVATED');
 kc.chat.msg(itemID.chat.Admin, "<color=#FFFFFF><b>TANG ACTIVATED</b></color>", 999, "server");
                 kc.chat.msg(itemID.chat.Admin, "<color=#FFFFFF><b>VERSION FULL</b></color>", 999, "server");
-                kc.chat.msg(itemID.chat.Admin, "<color=#FFFFFF><b>Tang created by ..POLAR X.. ☭</b></color>", 999, "server");
+                kc.chat.msg(itemID.chat.Admin, "<color=#FFFFFF><b>Tang created by ..POLAR X..</b></color>", 999, "server");
 
                 playAudio();
 
@@ -8614,72 +8878,4 @@ kc.chat.msg(itemID.chat.Admin, "<color=#FFFFFF><b>TANG ACTIVATED</b></color>", 9
   //  margin-top: 150px;
 //}
 
-(function() {var css = [
-`
-._3PFfW .lcdH4 .xI8XL {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex
-;
-    flex-flow: column;
-    justify-content: center;
-    align-items: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: 50% 50px;
-    background-image: url(/0000/495784d…/ad33eb4….png);
-    opacity: 0;
-}
-`
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-].join("\n");
-if (typeof GM_addStyle != "undefined") {
-	GM_addStyle(css);
-} else if (typeof PRO_addStyle != "undefined") {
-	PRO_addStyle(css);
-} else if (typeof addStyle != "undefined") {
-	addStyle(css);
-} else {
-	var node = document.createElement("style");
-	node.type = "text/css";
-	node.appendChild(document.createTextNode(css));
-	var heads = document.getElementsByTagName("head");
-	if (heads.length > 0) {
-		heads[0].appendChild(node);
-	} else {
-		// no head yet, stick it whereever
-		document.documentElement.appendChild(node);
-	}
-}
-})();
 
